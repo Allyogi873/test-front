@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiEndpoint: "http://localhost:9000/"
+  apiEndpoint: "http://api-test.nilo.gt/"
 };
