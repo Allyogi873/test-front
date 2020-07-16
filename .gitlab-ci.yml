@@ -1,0 +1,34 @@
+variables:
+  REGISTRY_HOST: pensotec.com:5005
+
+build:
+  stage: build
+  image: docker:18-git
+  services:
+    - docker:18-dind
+  variables:
+    DOCKER_HOST: tcp://localhost:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_BUILD_TOKEN $REGISTRY_HOST
+    - docker build -t $REGISTRY_HOST/$CI_PROJECT_PATH:$CI_COMMIT_SHA -t $REGISTRY_HOST/$CI_PROJECT_PATH:latest .
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH:$CI_COMMIT_SHA
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH:latest
+
+deploy:
+  stage: deploy
+  image: alpine
+  when: manual
+  before_script:
+    - apk add --no-cache curl
+    - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+    - chmod +x ./kubectl
+    - mv ./kubectl /usr/local/bin/kubectl
+    - kubectl version --client
+    - mkdir -p $HOME/.kube && cp $KUBE_CONFIG_FILE "$HOME/.kube/config"
+  script:
+      - kubectl apply -f k8s/deployment.yml
+      - kubectl rollout status -f k8s/deployment.yml
+      - kubectl set image deployment frontend-test-deployment frontend-test=$REGISTRY_HOST/$CI_PROJECT_PATH:latest --record
+      - kubectl rollout restart deployment frontend-test-deployment -n gitlab-managed-apps
