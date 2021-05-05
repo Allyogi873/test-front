@@ -12,5 +12,7 @@ jobs:
           command: |
             echo 'Se inicia la compilacion'
             ls
+            docker login -u $docker_usr -p $docker_pass
             docker build -t yovafree/test-front:latest .
+            docker push yovafree/test-front:latest
             echo 'Se inicia la compilacion'
