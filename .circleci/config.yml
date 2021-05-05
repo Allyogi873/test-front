@@ -4,6 +4,8 @@ jobs:
     docker:
       - image: docker:18-git
     steps:
+      - checkout:
+          path: ~/yovafree/test-front
       - run:
           name: Crear imagen de docker
           command: |
