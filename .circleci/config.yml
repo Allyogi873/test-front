@@ -32,3 +32,10 @@ jobs:
             exit
             echo 'Despliegue exitoso'
 
+workflows:
+    flujo:
+      jobs:
+        - build
+        - deploy:
+            requires:
+              - build
