@@ -8,5 +8,6 @@ jobs:
           name: Crear imagen de docker
           command: |
             echo 'Se inicia la compilacion'
+            ls -l
             docker build -t yovafree/test-front:latest .
             echo 'Se inicia la compilacion'
