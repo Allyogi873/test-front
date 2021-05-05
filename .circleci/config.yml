@@ -6,6 +6,7 @@ jobs:
     working_directory: ~/test-front
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Crear imagen de docker
           command: |
