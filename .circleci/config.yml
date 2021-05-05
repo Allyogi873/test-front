@@ -1,18 +1,34 @@
 version: 2.1
 jobs:
-  build:
+  # build:
+  #   docker:
+  #     - image: docker:18-git
+  #   working_directory: ~/test-front
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - run:
+  #         name: Crear imagen de docker
+  #         command: |
+  #           echo 'Se inicia la compilacion'
+  #           ls
+  #           docker login -u $docker_usr -p $docker_pass
+  #           docker build -t yovafree/test-front:latest .
+  #           docker push yovafree/test-front:latest
+  #           echo 'Se inicia la compilacion'
+  deploy:
     docker:
-      - image: docker:18-git
-    working_directory: ~/test-front
+      - image: alpine
     steps:
-      - checkout
-      - setup_remote_docker
       - run:
-          name: Crear imagen de docker
+          name: Despliegue
           command: |
-            echo 'Se inicia la compilacion'
-            ls
-            docker login -u $docker_usr -p $docker_pass
-            docker build -t yovafree/test-front:latest .
-            docker push yovafree/test-front:latest
-            echo 'Se inicia la compilacion'
+            apk update
+            apk add openssh
+            ssh $SRV_USR@$SRV_IP
+            echo $SRV_PASS
+            docker pull yovafree/test-front:latest
+            docker run -d -p 80:80 --name test-front yovafree/test-front:latest
+            exit
+            echo 'Despliegue exitoso'
+
