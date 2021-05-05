@@ -1,7 +1,6 @@
 version: 2.1
 jobs:
   build:
-    type: approval
     docker:
       - image: docker:18-git
     working_directory: ~/test-front
@@ -36,5 +35,6 @@ jobs:
 workflows:
     flujo:
       jobs:
-        - build
+        - build:
+            type: approval
         - deploy
