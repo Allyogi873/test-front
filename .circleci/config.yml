@@ -2,10 +2,11 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: alpine:3.7
+      - image: docker:18-git
     steps:
       - run:
-          name: The First Step
+          name: Crear imagen de docker
           command: |
-            echo 'Hello World!'
-            echo 'This is the delivery pipeline'
+            echo 'Se inicia la compilacion'
+            docker build -t yovafree/test-front:latest .
+            echo 'Se inicia la compilacion'
