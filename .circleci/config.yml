@@ -26,10 +26,7 @@ jobs:
             apk update
             apk add openssh
             apk add sshpass
-            sshpass -p $SRV_PASS ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $SRV_USR@$SRV_IP
-            docker pull yovafree/test-front:latest
-            docker run -d -p 80:80 --name test-front yovafree/test-front:latest
-            exit
+            sshpass -p $SRV_PASS ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $SRV_USR@$SRV_IP 'docker pull yovafree/test-front:latest; docker run -d -p 80:80 --name test-front yovafree/test-front:latest; exit'
             echo 'Despliegue exitoso'
 
 workflows:
