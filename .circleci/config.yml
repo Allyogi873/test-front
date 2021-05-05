@@ -32,6 +32,7 @@ jobs:
 workflows:
     flujo:
       jobs:
-        - build:
-            type: approval
-        - deploy
+        - build
+        - deploy:
+            requires:
+              - build
