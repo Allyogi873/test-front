@@ -1,21 +1,5 @@
 version: 2.1
 jobs:
-  # build:
-  #   docker:
-  #     - image: docker:18-git
-  #   working_directory: ~/test-front
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker
-  #     - run:
-  #         name: Crear imagen de docker
-  #         command: |
-  #           echo 'Se inicia la compilacion'
-  #           ls
-  #           docker login -u $docker_usr -p $docker_pass
-  #           docker build -t yovafree/test-front:latest .
-  #           docker push yovafree/test-front:latest
-  #           echo 'Se inicia la compilacion'
   deploy:
     docker:
       - image: alpine
