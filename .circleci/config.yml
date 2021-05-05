@@ -11,5 +11,5 @@ jobs:
           command: |
             echo 'Se inicia la compilacion'
             ls
-            cd test-front && docker build -t yovafree/test-front:latest .
+            docker build -t yovafree/test-front:latest .
             echo 'Se inicia la compilacion'
